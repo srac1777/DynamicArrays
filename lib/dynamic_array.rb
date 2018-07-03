@@ -51,11 +51,13 @@ class DynamicArray
   def shift
     raise "index out of bounds" if @store.empty?
     shifted = @store[0]
-    length -= 1
+    @length -= 1
     @store.map.with_index do |el,i|
       
       el = @store[i+1] if i == @length
     end
+    @store = @store[1..-1]
+    shifted
   end
 
   # O(n): has to shift over all the elements.
@@ -63,7 +65,9 @@ class DynamicArray
     if @length == @capacity && @capacity != 0
       resize!
     end
-
+    @store = [val] + @store
+    @length += 1
+    
   end
 
   protected

@@ -4,14 +4,22 @@ class RingBuffer
   attr_reader :length
 
   def initialize
+    storeobj = StaticArray.new(0)
+    @store = storeobj.store
+    @length = 0
+    @capacity = 8
   end
 
   # O(1)
   def [](index)
+    raise "index out of bounds" if @store[index].nil?
+    @store[index]
   end
 
   # O(1)
   def []=(index, val)
+    raise "index out of bounds" if @store[index].nil?
+    @store[index] = value
   end
 
   # O(1)
