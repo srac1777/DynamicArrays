@@ -12,7 +12,7 @@ describe DynamicArray do
   it "pushes/pops items" do
     arr = DynamicArray.new
     5.times { |i| arr.push(i) }
-
+    # debugger
     expect(arr.length).to eq(5)
     5.times { |i| expect(arr[i]) == i }
 
