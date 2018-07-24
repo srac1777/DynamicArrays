@@ -14,6 +14,6 @@ class StaticArray
     @store[index] = value
   end
 
-  # protected
+  protected
   attr_accessor :store
 end
