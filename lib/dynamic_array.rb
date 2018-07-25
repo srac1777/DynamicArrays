@@ -26,6 +26,8 @@ class DynamicArray
 
   # O(1)
   def pop
+    raise "index out of bounds" if length == 0
+
     toreturn = @store[length]
     @length -= 1
     toreturn
@@ -34,7 +36,8 @@ class DynamicArray
   # O(1) ammortized; O(n) worst case. Variable because of the possible
   # resize.
   def push(val)
-    if length == capacity
+    if @length == capacity
+      
       resize!
     end
     @length += 1
@@ -43,10 +46,13 @@ class DynamicArray
 
   # O(n): has to shift over all the elements.
   def shift
+    raise "index out of bounds" if length == 0
+
     toreturn = @store[0]
     i = 0
     while i < @length
       @store[i] = @store[i + 1]
+      i += 1
     end
     length -=1
     
@@ -64,8 +70,10 @@ class DynamicArray
     i = 1
     while i < length+1
       @store[i] = oldstore[i-1]
+      i+=1
     end
-    length +=1
+    # debugger
+    @length +=1
     
   end
 
@@ -82,6 +90,7 @@ class DynamicArray
 
   # O(n): has to copy over all the elements to the new store.
   def resize!
+    # debugger
     oldstore = @store
     @capacity *= 2
     @store = StaticArray.new(@capacity)
