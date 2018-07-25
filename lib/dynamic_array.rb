@@ -43,11 +43,29 @@ class DynamicArray
 
   # O(n): has to shift over all the elements.
   def shift
+    toreturn = @store[0]
+    i = 0
+    while i < @length
+      @store[i] = @store[i + 1]
+    end
+    length -=1
     
+    toreturn
   end
 
   # O(n): has to shift over all the elements.
   def unshift(val)
+    if length == capacity
+      resize!
+    end
+    
+    oldstore = @store
+    @store[0] = val
+    i = 1
+    while i < length+1
+      @store[i] = oldstore[i-1]
+    end
+    length +=1
     
   end
 
@@ -56,9 +74,9 @@ class DynamicArray
   attr_writer :length
 
   def check_index(index)
-    return false if length == 0
-    return false if index >= capacity
+    return false if index >= length
     return false if index < 0
+    return false if length == 0
     true
   end
 
@@ -68,8 +86,8 @@ class DynamicArray
     @capacity *= 2
     @store = StaticArray.new(@capacity)
     i = 0
-    oldstore.each do |el|
-      @store[i] = el
+    while i < @length
+      @store[i] = oldstore[i]
       i += 1
     end
   end
