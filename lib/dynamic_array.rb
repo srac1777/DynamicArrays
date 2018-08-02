@@ -65,13 +65,15 @@ class DynamicArray
       resize!
     end
     
-    oldstore = @store
-    @store[0] = val
-    i = 1
-    while i < length+1
-      @store[i] = oldstore[i-1]
+    p @store
+    i = 0
+    while i < @store.length - 1
+      
+      @store[i+1] = @store[i]
       i+=1
     end
+    @store[0] = val
+    
     # debugger
     @length +=1
     

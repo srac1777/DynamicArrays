@@ -14,6 +14,14 @@ class StaticArray
     @store[index] = value
   end
 
+  def length
+    @store.length
+  end
+
+  def +(arr)
+    @store + arr
+  end
+
   protected
   attr_accessor :store
 end
