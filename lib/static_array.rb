@@ -18,10 +18,6 @@ class StaticArray
     @store.length
   end
 
-  def +(arr)
-    @store + arr
-  end
-
   protected
   attr_accessor :store
 end
