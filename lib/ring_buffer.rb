@@ -6,8 +6,8 @@ class RingBuffer
 
   def initialize
     @store = StaticArray.new(8)
-    @length = 0
     @capacity = 8
+    @length = 0
     @start_idx = 0
   end
 
@@ -25,56 +25,29 @@ class RingBuffer
 
   # O(1)
   def pop
-    raise "index out of bounds" if length == 0
-
-    toreturn = @store[length]
+    raise "index out of bounds" if @length == 0
+    to_return = @store[((@start_idx + @length) % @capacity)-1]
     @length -= 1
-    toreturn
+    to_return
   end
 
   # O(1) ammortized
   def push(val)
-    if @length == capacity
-      
-      resize!
-    end
+    resize! if @length == @capacity
+    @store[((@start_idx + @length) % @capacity)] = val
     @length += 1
-    @store[length] = val
   end
 
   # O(1)
   def shift
-    raise "index out of bounds" if length == 0
-
-    toreturn = @store[0]
-    i = 0
-    while i < @length
-      @store[i] = @store[i + 1]
-      i += 1
-    end
-    length -=1
+    raise "index out of bounds" if @length == 0
+    to_return = @store[@start_idx]
     
-    toreturn
   end
 
   # O(1) ammortized
   def unshift(val)
-    if length == capacity
-      resize!
-    end
-    
-    # p @store
-    i = 0
-    while i < @store.length - 1
-      
-      @store[i+1] = @store[i]
-      i+=1
-    end
-    @store[0] = val
-    
-    # debugger
-    @length +=1
-    
+
   end
 
   protected
@@ -82,20 +55,12 @@ class RingBuffer
   attr_writer :length
 
   def check_index(index = 0)
+    return false if length == 0
     return false if index >= length
     return false if index < 0
-    return false if length == 0
     true
   end
 
   def resize!
-    oldstore = @store
-    @capacity *= 2
-    @store = StaticArray.new(@capacity)
-    i = 0
-    while i < @length
-      @store[i] = oldstore[i]
-      i += 1
-    end
   end
 end
